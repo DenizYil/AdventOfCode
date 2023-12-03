@@ -1,7 +1,10 @@
+import math
+
 with open("./input.txt", "r") as file:
     lines = [line.strip() for line in file.readlines()]
 
 ans = []
+gears = []
 
 for row in range(len(lines)):
     for col in range(len(lines[row])):
@@ -21,11 +24,18 @@ for row in range(len(lines)):
         if cell.isdigit() or cell == ".":
             continue
 
+        g = []
+
         for (r, c) in adjacents:
             adj_cell = lines[r][c]
 
             if adj_cell.isdigit():
                 ans.append((r, c))
+
+                if cell == "*":
+                    g.append((r, c))
+
+        gears.append(g)
 
 checked = []
 
@@ -64,8 +74,16 @@ def get_number_from_cell(row, col):
 
 nums = []
 
-for (row, col) in ans:
-    nums.append(get_number_from_cell(row, col))
+for gear in gears:
+    amount = []
+
+    for (r, c) in gear:
+        amount.append(get_number_from_cell(r, c))
+
+    amount = list(x for x in amount if x != 0)
+
+    if len(amount) == 2:
+        nums.append(math.prod(amount))
 
 print(nums)
 print(sum(nums))

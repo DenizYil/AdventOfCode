@@ -13,20 +13,19 @@ transformer = {
     "nine": "9"
 }
 
-
-ans = list("" for item in lines)
+p1, p2 = [[""] * len(lines)] * 2
 
 for i, line in enumerate(lines):
     for j, char in enumerate(line):
         if char.isnumeric():
-            ans[i] += char
+            p1[i] += char
+            p2[i] += char
         for k, v in transformer.items():
             try:
                 if line[j:j+len(k)] == k:
-                    ans[i] += v
+                    p2[i] += v
             except IndexError:
                 pass
 
-
-print(ans)
-print(sum(int(x[0] + x[-1]) for x in ans))
+print(sum(int(x[0] + x[-1]) for x in p1))
+print(sum(int(x[0] + x[-1]) for x in p2))
